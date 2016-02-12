@@ -29,42 +29,33 @@ public class bad1Movement : MonoBehaviour {
         x = -speed * Time.deltaTime;
         y = (-speed / 2) * Time.deltaTime;
 
+			
 
-        if (InBoundsDown == true)
+		if (decisionPeriod < Time.time)
+		{
+			UpOrDown = Random.value;
+			decisionPeriod = Time.time + 1.5f;
+			
+			if (UpOrDown > 0.5f)
+			{
+				InBoundsUp = false;
+				InBoundsDown = true;
+			}
+			else
+			{
+				InBoundsDown = false;
+				InBoundsUp = true;
+			}	
+		}
+		
+		
+		if (InBoundsDown == true)
         {
             gameObject.transform.Translate(x, y, 0);
         }
-
-        if (InBoundsUp == true)
+        else
         {
             gameObject.transform.Translate(x, -y, 0);
-        }
-			
-
-        if (decisionPeriod < Time.time)
-        {
-            UpOrDown = Random.value;
-            decisionPeriod = Time.time + 1.5f;
-        }
-
-
-        if (UpOrDown > 0.5f)
-        {
-            {
-                InBoundsUp = false;
-                InBoundsDown = true;
-
-            }
-
-        }
-
-        if (UpOrDown <= 0.5f)
-        {
-            {
-                InBoundsDown = false;
-                InBoundsUp = true;
-            }
-            
         }
       
 
@@ -76,6 +67,7 @@ public class bad1Movement : MonoBehaviour {
            
         }
 
+		
         if (gameObject.transform.position.y >= 4.2f)
         {
             decisionPeriod = 0;
