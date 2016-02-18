@@ -4,6 +4,7 @@ using System.Collections;
 public class itemSpawn : MonoBehaviour {
 
 	[SerializeField] private GameObject itemPrefab;
+	[SerializeField] private GameObject virusPrefab;
 	private GameObject _item;
 	public float itemBaseInterval = 10.0f;
 	int itemChance;

@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class itemMove : MonoBehaviour {
+public class Virus : MonoBehaviour {
 
 	public float speed = 5f;
 	
-	// Update is called once per frame
 	void Update () {
 		this.transform.Translate(-speed * Time.deltaTime, 0, 0);
 
@@ -13,5 +12,12 @@ public class itemMove : MonoBehaviour {
         {
             Destroy(gameObject);
         }
+	}
+	
+	void OnTriggerEnter2D (Collider2D coll) {
+		if (coll.gameObject.tag == "player") {
+			Destroy(gameObject);
+			Player.virusBoost = true;
+		}
 	}
 }

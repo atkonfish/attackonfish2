@@ -21,6 +21,9 @@ public class Player : MonoBehaviour {
 	//Item boost
     public static bool itemBoost = false;
     float boostDuration;
+	//Virus
+	public static bool virusBoost = false;
+    float virusDuration;
 	
 	void Start () {
 		
@@ -40,6 +43,9 @@ public class Player : MonoBehaviour {
 		
 		//Initalize ability cool down time
 		boostDuration = 5.0f;
+		
+		//Initalize virus cool down time
+		virusDuration = 5.0f;
 
 	}
 	
@@ -50,7 +56,10 @@ public class Player : MonoBehaviour {
 			Destroy (gameObject);
 			//SceneManager.LoadScene ("Main Menu");
         }
-		movement ();
+		if (virusBoost)
+			movementVirus ();
+		else
+			movement ();
 		shoot ();
 	}
 	
@@ -68,6 +77,7 @@ public class Player : MonoBehaviour {
 		}
     }
 	
+	//Reguler movement
 	void movement () {
 		Vector3 pos = transform.position;
         /*PLAYER MOVEMENT    
@@ -76,6 +86,38 @@ public class Player : MonoBehaviour {
         */
         pos.y += Input.GetAxisRaw("Vertical") * speed * Time.deltaTime;
         pos.x += Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime;
+       
+        /*RESTRICT MOVEMENT WITHIN MAIN CAMERA
+            Checks submarine position + the border of it to see if its near the edges of the main camera.
+            OrthographicSize takes vertical positions only therefore widthOrtho is made to define the horizontal position of the camera.
+            Vertical position may change due to implementation of UI.
+        */
+        if(pos.y + subBoundaryRadius > Camera.main.orthographicSize){
+            pos.y = Camera.main.orthographicSize - subBoundaryRadius;
+        }
+        if(pos.y - subBoundaryRadius < -Camera.main.orthographicSize){
+            pos.y = -Camera.main.orthographicSize + subBoundaryRadius;
+        }   
+        if(pos.x + subBoundaryRadius > widthOrtho){
+            pos.x = widthOrtho - subBoundaryRadius;
+        }
+        if (pos.x - subBoundaryRadius < -widthOrtho){
+            pos.x = -widthOrtho + subBoundaryRadius;
+        }
+        //Updates player position.
+        transform.position = pos;
+	}
+	
+	
+	//Changed key movement direction
+	void movementVirus () {
+		Vector3 pos = transform.position;
+        /*PLAYER MOVEMENT    
+            GetAxisRaw inputs can be changed in Edit > Project Settings > Input. Disabled alternative keys for simplicity. 
+            May have alternative buttons later on.
+        */
+        pos.y += Input.GetAxisRaw("Horizontal") * speed * 1.5f * Time.deltaTime;
+        pos.x += Input.GetAxisRaw("Vertical") * speed * 1.5f * Time.deltaTime;
        
         /*RESTRICT MOVEMENT WITHIN MAIN CAMERA
             Checks submarine position + the border of it to see if its near the edges of the main camera.
