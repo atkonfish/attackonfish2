@@ -6,17 +6,11 @@ public class SpawnEnemy : MonoBehaviour {
 	[SerializeField] public GameObject enemyPrefab;
 	private GameObject _enemy;
     public float spawnTime = 3f;
-    GameObject Player;
-    int Playerhp;
-    PlayerHealth PlayerHealthScript;
     bool spawningCheck = true;
 
 
     void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("player");
-        PlayerHealthScript = Player.GetComponent<PlayerHealth>();
-
 
         if (spawningCheck)
         {
@@ -40,11 +34,6 @@ public class SpawnEnemy : MonoBehaviour {
         }
 
         // Call the Spawn function after a delay of the spawnTime and then continue to call after the same amount of time.
-
-        if (PlayerHealthScript.hp <= 0)
-        {
-            spawningCheck = false;
-        }
     }
 
     void Spawn ()
