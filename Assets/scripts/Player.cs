@@ -45,7 +45,7 @@ public class Player : MonoBehaviour {
 		boostDuration = 5.0f;
 		
 		//Initalize virus cool down time
-		virusDuration = 5.0f;
+		virusDuration = 10.0f;
 
 	}
 	
@@ -56,8 +56,15 @@ public class Player : MonoBehaviour {
 			Destroy (gameObject);
 			//SceneManager.LoadScene ("Main Menu");
         }
-		if (virusBoost)
+		if (virusBoost) {
 			movementVirus ();
+			virusDuration -= Time.deltaTime;
+            if (virusDuration <= 0)
+            {
+                virusBoost = false;
+                virusDuration = 5.0f;
+            }
+		}
 		else
 			movement ();
 		shoot ();
