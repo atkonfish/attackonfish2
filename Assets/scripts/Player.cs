@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 	
@@ -54,7 +55,7 @@ public class Player : MonoBehaviour {
 		if (hp <= 0)
         {
 			Destroy (gameObject);
-			//SceneManager.LoadScene ("Main Menu");
+			SceneManager.LoadScene ("High Scores");
         }
 		if (virusBoost) {
 			movementVirus ();
