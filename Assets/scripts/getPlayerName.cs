@@ -11,8 +11,11 @@ public class getPlayerName : MonoBehaviour {
 	}
 	
 	void OnEnable () {
-		HighScore.playerName = playerName.text;
+		if (playerName.text != "Enter Player Name") {
+			HighScore.playerName = playerName.text;
+		} else {
+			HighScore.playerName = "";
+		}
 		this.enabled = false;
 	}
-	
 }

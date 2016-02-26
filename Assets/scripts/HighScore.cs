@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class HighScore : MonoBehaviour {
 	
@@ -20,6 +21,7 @@ public class HighScore : MonoBehaviour {
 	[SerializeField] private Text scoreThree;
 	
 	bool rewriteFile = false;
+	StreamWriter sw;
 	
 	
 	void Start () {
@@ -39,7 +41,14 @@ public class HighScore : MonoBehaviour {
 		nameThree.text = eachLine[4];
 		scoreThree.text = eachLine[5];
 		if (rewriteFile) {
-			
+			sw = new StreamWriter(Application.dataPath + "/txt_Files/" +"highscores.txt");
+			sw.WriteLine(eachLine[0]);
+			sw.WriteLine(eachLine[1]);
+			sw.WriteLine(eachLine[2]);
+			sw.WriteLine(eachLine[3]);
+			sw.WriteLine(eachLine[4]);
+			sw.WriteLine(eachLine[5]);
+			sw.Close();
 		}
 	}
 	
