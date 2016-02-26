@@ -25,9 +25,11 @@ public class Player : MonoBehaviour {
 	//Virus
 	public static bool virusBoost = false;
     float virusDuration;
+	public AudioSource shooting;
+	public AudioSource death;
+	public AudioSource burst;
 	
 	void Start () {
-		
 		//Border for the submarine. used for movement restriction
 		screenRatio = (float)Screen.width / (float)Screen.height;
 		widthOrtho = Camera.main.orthographicSize * screenRatio;
@@ -56,6 +58,7 @@ public class Player : MonoBehaviour {
 		//Check player hp
 		if (hp <= 0)
         {
+			death.Play ();
 			Destroy (gameObject);
 			SceneManager.LoadScene ("High Scores");
         }
@@ -149,7 +152,7 @@ public class Player : MonoBehaviour {
         //Updates player position.
         transform.position = pos;
 	}
-	
+
 	void shoot()
     {
         coolDown -= Time.deltaTime;
@@ -159,7 +162,7 @@ public class Player : MonoBehaviour {
             coolDown = delayshot;
             //Creates a bullet from the position of the gun barrel.
             Instantiate(bullet, barrel.transform.position, Quaternion.identity);
-			GetComponent<AudioSource> ().Play ();
+			shooting.Play ();
         }
 		//Ship ability 3 burst shot
         if (Input.GetKey(KeyCode.A) && coolDown <= 0 && itemBoost)
@@ -168,7 +171,7 @@ public class Player : MonoBehaviour {
             Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, 0));
             Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, 10));
             Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, -10));
-			GetComponent<AudioSource> ().Play ();
+			burst.Play ();
         }
 
 		//Shooting Sound
