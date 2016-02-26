@@ -44,9 +44,11 @@ public class Player : MonoBehaviour {
 		
 		//Initalize ability cool down time
 		boostDuration = 5.0f;
+		itemBoost = false;
 		
 		//Initalize virus cool down time
 		virusDuration = 10.0f;
+		virusBoost = false;
 
 	}
 	
