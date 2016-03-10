@@ -174,17 +174,6 @@ public class Player : MonoBehaviour {
 			burst.Play ();
         }
 
-		//Shooting Sound
-		/*if (Input.GetKeyDown ("a")) {
-			keydown = true;
-			if (keydown = true) {
-				
-				if (Input.GetKeyUp ("a")) {
-					GetComponent<AudioSource> ().Stop ();
-				}
-			}
-		}*/
-
         if (itemBoost)
         {
             boostDuration -= Time.deltaTime;
