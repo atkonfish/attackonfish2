@@ -28,6 +28,9 @@ public class Player : MonoBehaviour {
 	public AudioSource shooting;
 	public AudioSource death;
 	public AudioSource burst;
+	//Die
+	[SerializeField] private GameObject explosion;
+	[SerializeField] private GameObject loader;
 	
 	void Start () {
 		//Border for the submarine. used for movement restriction
@@ -60,7 +63,9 @@ public class Player : MonoBehaviour {
         {
 			death.Play ();
 			Destroy (gameObject);
-			SceneManager.LoadScene ("High Scores");
+			GameObject explosionObj = Instantiate (explosion) as GameObject;
+			GameObject loaderObj = Instantiate (loader) as GameObject;
+			explosionObj.transform.position = this.transform.position;
         }
 		if (virusBoost) {
 			movementVirus ();

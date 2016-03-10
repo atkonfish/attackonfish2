@@ -8,7 +8,7 @@ public class ScrollBackground : MonoBehaviour {
     
 
 	void Start () {
-       speed = 0.5f;
+       speed = 0.25f;
        Timer = Time.time + 3;
 	}
 	
