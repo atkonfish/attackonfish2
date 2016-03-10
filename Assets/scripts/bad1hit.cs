@@ -15,12 +15,16 @@ public class bad1hit : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.tag == "playerbullet")
-
         {
             hp--;
           
         }
+		if (coll.gameObject.tag == "playerbulletstrong")
 
+        {
+            hp -= 10;
+          
+        }
         if (coll.gameObject.tag == "player")
         {
             hp = hp - 4;

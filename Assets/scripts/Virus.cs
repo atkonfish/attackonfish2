@@ -4,6 +4,11 @@ using System.Collections;
 public class Virus : MonoBehaviour {
 
 	public float speed = 5f;
+	GameObject player;
+	
+	void Start () {
+		player = GameObject.FindWithTag("Player");
+	}
 	
 	void Update () {
 		this.transform.Translate(-speed * Time.deltaTime, 0, 0);
@@ -17,7 +22,7 @@ public class Virus : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D coll) {
 		if (coll.gameObject.tag == "player") {
 			Destroy(gameObject);
-			Player.virusBoost = true;
+			player.GetComponentInChildren<PlayerStats>().virusBoost = true;
 		}
 	}
 }

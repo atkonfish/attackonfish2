@@ -4,6 +4,11 @@ using System.Collections;
 public class Item : MonoBehaviour {
 
 	public float speed = 5f;
+	GameObject player;
+	
+	void Start () {
+		player = GameObject.FindWithTag("Player");
+	}
 	
 	void Update () {
 		this.transform.Translate(-speed * Time.deltaTime, 0, 0);
@@ -17,7 +22,7 @@ public class Item : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D coll) {
 		if (coll.gameObject.tag == "player") {
 			Destroy(gameObject);
-			Player.itemBoost = true;
+			player.GetComponentInChildren<PlayerStats>().itemBoost = true;
 		}
 	}
 }

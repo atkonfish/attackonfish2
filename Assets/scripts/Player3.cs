@@ -2,12 +2,12 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class Player : PlayerStats {
+public class Player3 : PlayerStats {
 	
 	/*
-	Submarine 1, standard ship, balanced attack and defence
+	Submarine 3, attack ship, weak attack and weak defence, needs the boost from items and viruses (positive effect)
 	Ability effect(in shoot()), fire a burst shot of 3 bullets instead of 1
-	Virus effect (in movement()), change movement direction of arrow keys
+	Virus effect (in shoot()), fire a strong bullet with longer cool down time
 	*/
 	
 	//Movement
@@ -19,16 +19,18 @@ public class Player : PlayerStats {
     public GameObject barrel;
     //Defines the bullet for prefab
     public GameObject bullet;
+	public GameObject bullet2;
     //Defines a delay for bullets being shot
-    const float DELAY_SHOT = 0.25f;
+    const float DELAY_SHOT = 0.1f;
+	const float VIRUS_DELAY_SHOT = 0.8f;
     //Defines the cool down time for the delay
     float coolDown = 0;
 	//Item boost
     float boostDuration;
-	const float BOOST_TIME = 5.0f;
+	const float BOOST_TIME = 15.0f;
 	//Virus
     float virusDuration;
-	const float VIRUS_TIME = 10.0f;
+	const float VIRUS_TIME = 15.0f;
 	//Audio
 	public AudioSource shooting;
 	public AudioSource death;
@@ -41,10 +43,10 @@ public class Player : PlayerStats {
 		subBoundaryRadius = 1f;
 		
 		//Initalize hp
-		hp = 100;
+		hp = 70;
 		
 		//Set player speed
-		speed = 5.0f;
+		speed = 7.0f;
 
 		//Initalize ability cool down time
 		boostDuration = BOOST_TIME;
@@ -105,52 +107,26 @@ public class Player : PlayerStats {
             GetAxisRaw inputs can be changed in Edit > Project Settings > Input. Disabled alternative keys for simplicity. 
             May have alternative buttons later on.
         */
-		if (virusBoost) {
-			//Virus Movement, changed key directions
-			pos.y += Input.GetAxisRaw("Horizontal") * speed * 1.5f * Time.deltaTime;
-			pos.x += Input.GetAxisRaw("Vertical") * speed * 1.5f * Time.deltaTime;
-		   
-			/*RESTRICT MOVEMENT WITHIN MAIN CAMERA
-				Checks submarine position + the border of it to see if its near the edges of the main camera.
-				OrthographicSize takes vertical positions only therefore widthOrtho is made to define the horizontal position of the camera.
-				Vertical position may change due to implementation of UI.
-			*/
-			if(pos.y + subBoundaryRadius > Camera.main.orthographicSize){
-				pos.y = Camera.main.orthographicSize - subBoundaryRadius;
-			}
-			if(pos.y - subBoundaryRadius < -Camera.main.orthographicSize){
-				pos.y = -Camera.main.orthographicSize + subBoundaryRadius;
-			}   
-			if(pos.x + subBoundaryRadius > widthOrtho){
-				pos.x = widthOrtho - subBoundaryRadius;
-			}
-			if (pos.x - subBoundaryRadius < -widthOrtho){
-				pos.x = -widthOrtho + subBoundaryRadius;
-			}
-		} else {
-			//Regular Movement
-			pos.y += Input.GetAxisRaw("Vertical") * speed * Time.deltaTime;
-			pos.x += Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime;
-		   
-			/*RESTRICT MOVEMENT WITHIN MAIN CAMERA
-				Checks submarine position + the border of it to see if its near the edges of the main camera.
-				OrthographicSize takes vertical positions only therefore widthOrtho is made to define the horizontal position of the camera.
-				Vertical position may change due to implementation of UI.
-			*/
-			if(pos.y + subBoundaryRadius > Camera.main.orthographicSize){
-				pos.y = Camera.main.orthographicSize - subBoundaryRadius;
-			}
-			if(pos.y - subBoundaryRadius < -Camera.main.orthographicSize){
-				pos.y = -Camera.main.orthographicSize + subBoundaryRadius;
-			}   
-			if(pos.x + subBoundaryRadius > widthOrtho){
-				pos.x = widthOrtho - subBoundaryRadius;
-			}
-			if (pos.x - subBoundaryRadius < -widthOrtho){
-				pos.x = -widthOrtho + subBoundaryRadius;
-			}
-		}
-        
+        pos.y += Input.GetAxisRaw("Vertical") * speed * Time.deltaTime;
+        pos.x += Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime;
+       
+        /*RESTRICT MOVEMENT WITHIN MAIN CAMERA
+            Checks submarine position + the border of it to see if its near the edges of the main camera.
+            OrthographicSize takes vertical positions only therefore widthOrtho is made to define the horizontal position of the camera.
+            Vertical position may change due to implementation of UI.
+        */
+        if(pos.y + subBoundaryRadius > Camera.main.orthographicSize){
+            pos.y = Camera.main.orthographicSize - subBoundaryRadius;
+        }
+        if(pos.y - subBoundaryRadius < -Camera.main.orthographicSize){
+            pos.y = -Camera.main.orthographicSize + subBoundaryRadius;
+        }   
+        if(pos.x + subBoundaryRadius > widthOrtho){
+            pos.x = widthOrtho - subBoundaryRadius;
+        }
+        if (pos.x - subBoundaryRadius < -widthOrtho){
+            pos.x = -widthOrtho + subBoundaryRadius;
+        }
         //Updates player position.
         transform.position = pos;
 	}
@@ -159,7 +135,7 @@ public class Player : PlayerStats {
     {
         coolDown -= Time.deltaTime;
         //single shot
-		if (Input.GetKey(KeyCode.A) && coolDown <= 0 && !itemBoost)
+		if (Input.GetKey(KeyCode.A) && coolDown <= 0 && !itemBoost && !virusBoost)
         {
             coolDown = DELAY_SHOT;
             //Creates a bullet from the position of the gun barrel.
@@ -167,7 +143,7 @@ public class Player : PlayerStats {
 			shooting.Play ();
         }
 		//Ship ability 3 burst shot
-        if (Input.GetKey(KeyCode.A) && coolDown <= 0 && itemBoost)
+        if (Input.GetKey(KeyCode.A) && coolDown <= 0 && itemBoost && !virusBoost)
         {
             coolDown = DELAY_SHOT;
             Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, 0));
@@ -175,7 +151,23 @@ public class Player : PlayerStats {
             Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, -10));
 			burst.Play ();
         }
-
+		//One strong bullet from virus
+		if (Input.GetKey(KeyCode.A) && coolDown <= 0 && !itemBoost && virusBoost)
+        {
+            coolDown = VIRUS_DELAY_SHOT;
+            Instantiate(bullet2, barrel.transform.position, Quaternion.identity);
+			shooting.Play ();
+        }
+		//Hidden ability with both item and virus boost active
+		if (Input.GetKey(KeyCode.A) && coolDown <= 0 && itemBoost && virusBoost)
+        {
+            coolDown = VIRUS_DELAY_SHOT;
+            Instantiate(bullet2, barrel.transform.position, Quaternion.Euler(0, 0, 0));
+            Instantiate(bullet2, barrel.transform.position, Quaternion.Euler(0, 0, 10));
+            Instantiate(bullet2, barrel.transform.position, Quaternion.Euler(0, 0, -10));
+			burst.Play ();
+        }
 
     }
 }
+
