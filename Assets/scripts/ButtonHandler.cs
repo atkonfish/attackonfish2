@@ -18,7 +18,12 @@ public class ButtonHandler : MonoBehaviour {
         SceneManager.LoadScene(sceneName); 
     }
 
-    public void Exit()
+	public void LoadPlay(int Num) {
+		this.GetComponent<getPlayerName> ().enabled = true;
+		spawnPlayer.spawnNum = Num;
+	}
+
+	public void Exit()
     {
         Application.Quit();
     }

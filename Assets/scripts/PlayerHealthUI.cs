@@ -5,9 +5,15 @@ using UnityEngine.UI;
 public class PlayerHealthUI : MonoBehaviour {
 	
 	private int health;
+	GameObject player;
+	
+	void Start () {
+		player = GameObject.FindWithTag("Player");
+		health = player.GetComponentInChildren<PlayerStats>().hp;
+	}
 	
 	void Update () {
-		health = Player.hp;
+		health = player.GetComponentInChildren<PlayerStats>().hp;
 		GetComponent<Text>().text = "Health: " + health.ToString (); //Player health display
 		if (health > 50)
 			GetComponent<Text> ().color = Color.green;

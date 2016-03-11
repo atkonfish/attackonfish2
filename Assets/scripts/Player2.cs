@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
-public class Player2 : MonoBehaviour {
+public class Player2 : PlayerStats {
 
+	/*
+	Submarine 2, tank ship, slower attack but uses high hp to crush enemies, normally fire 2 bullets at once
+	Ability effect(in OnTriggerEnter2D(Collider2D coll)), neglect damage from enemy bullets and recover hp for every enemy crushed
+	Virus effect (in OnTriggerEnter2D(Collider2D coll)), weaken defense all damages are tripled
+	*/
 	
-	//Health
-	public static int hp;
 	//Movement
 	private float speed;  //Default speed for player.
     private float subBoundaryRadius;   //Border for the submarine. used for movement restriction
@@ -16,12 +20,18 @@ public class Player2 : MonoBehaviour {
     //Defines the bullet for prefab
     public GameObject bullet;
     //Defines a delay for bullets being shot
-    float delayshot;
+    const float DELAY_SHOT = 0.4f;
     //Defines the cool down time for the delay
     float coolDown = 0;
 	//Item boost
-    public static bool itemBoost = false;
     float boostDuration;
+	const float BOOST_TIME = 10.0f;
+	//Virus
+    float virusDuration;
+	const float VIRUS_TIME = 5.0f;
+	//Audio
+	public AudioSource shooting;
+	public AudioSource death;
 	
 	void Start () {
 		
@@ -36,11 +46,13 @@ public class Player2 : MonoBehaviour {
 		//Set player speed
 		speed = 3.0f;
 		
-		//Set time between firing shoots
-		delayshot = 0.4f;
-		
 		//Initalize ability cool down time
-		boostDuration = 10.0f;
+		boostDuration = BOOST_TIME;
+		itemBoost = false;
+		
+		//Initalize virus cool down time
+		virusDuration = VIRUS_TIME;
+		virusBoost = false;
 
 	}
 	
@@ -48,8 +60,26 @@ public class Player2 : MonoBehaviour {
 		//Check player hp
 		if (hp <= 0)
         {
+			death.Play ();
 			Destroy (gameObject);
-			//SceneManager.LoadScene ("Main Menu");
+			SceneManager.LoadScene ("High Scores");
+        }
+		if (virusBoost) {
+			virusDuration -= Time.deltaTime;
+            if (virusDuration <= 0)
+            {
+                virusBoost = false;
+                virusDuration = 5.0f;
+            }
+		}
+		if (itemBoost)
+        {
+            boostDuration -= Time.deltaTime;
+            if (boostDuration <= 0)
+            {
+                itemBoost = false;
+                boostDuration = 10.0f;
+            }
         }
 		movement ();
 		shoot ();
@@ -57,15 +87,37 @@ public class Player2 : MonoBehaviour {
 	
 	void OnTriggerEnter2D(Collider2D coll)
     {
+		if (virusBoost) {
+			if (coll.gameObject.tag == "enemyBullet")
+			{ 
+				hp -= 3;
+			}
 
-        if (coll.gameObject.tag == "enemyBullet")
-        { 
-			hp--;
-		}
+			if (coll.gameObject.tag == "enemy")
+			{ 
+				hp -= 6; 
+			}
+		} else if (itemBoost) {
+			if (coll.gameObject.tag == "enemyBullet")
+			{ 
 
-        if (coll.gameObject.tag == "enemy")
-        { 
-			hp -= 2; 
+			}
+
+			if (coll.gameObject.tag == "enemy")
+			{ 
+				if (hp + 1 <= 150)
+					hp += 1; 
+			}
+		} else {
+			if (coll.gameObject.tag == "enemyBullet")
+			{ 
+				hp -= 1;
+			}
+
+			if (coll.gameObject.tag == "enemy")
+			{ 
+				hp -= 2; 
+			}
 		}
     }
 	
@@ -103,47 +155,13 @@ public class Player2 : MonoBehaviour {
     {
         coolDown -= Time.deltaTime;
         //single shot
-		if (Input.GetKey(KeyCode.A) && coolDown <= 0 && !itemBoost)
+		if (Input.GetKey(KeyCode.A) && coolDown <= 0)
         {
-            coolDown = delayshot;
+            coolDown = DELAY_SHOT;
             //Normally shoot 2 bullet of the gun barrel.
             Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, 10));
             Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, -10));
-			GetComponent<AudioSource> ().Play ();
-        }
-		//Ship ability 5 burst shot
-        if (Input.GetKey(KeyCode.A) && coolDown <= 0 && itemBoost)
-        {
-            coolDown = delayshot;
-            Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, 0));
-            Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, 10));
-            Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, -10));
-			Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, 15));
-            Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, -15));
-			Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, 20));
-            Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, -20));
-			GetComponent<AudioSource> ().Play ();
-        }
-
-		//Shooting Sound
-		/*if (Input.GetKeyDown ("a")) {
-			keydown = true;
-			if (keydown = true) {
-				
-				if (Input.GetKeyUp ("a")) {
-					GetComponent<AudioSource> ().Stop ();
-				}
-			}
-		}*/
-
-        if (itemBoost)
-        {
-            boostDuration -= Time.deltaTime;
-            if (boostDuration <= 0)
-            {
-                itemBoost = false;
-                boostDuration = 5.0f;
-            }
+			shooting.Play ();
         }
     }
 }

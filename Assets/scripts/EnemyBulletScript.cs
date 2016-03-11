@@ -33,5 +33,7 @@ public class EnemyBulletScript : MonoBehaviour {
     {
         if (coll.gameObject.tag == "player")
             Destroy(gameObject);
+		if (coll.gameObject.tag == "playerbulletstrong")
+            Destroy(gameObject);
     }
 }
