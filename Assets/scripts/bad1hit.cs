@@ -7,6 +7,7 @@ using System.Collections;
 public class bad1hit : MonoBehaviour {
    public int hp = 2;
    public int hitScore = 50;
+   [SerializeField] private Animator death;
    // public GameObject enemy;
 
 
@@ -33,9 +34,14 @@ public class bad1hit : MonoBehaviour {
         if (hp <= 0)
         {
 			scoreCounter.score += hitScore;
-			Destroy(gameObject);
+			GetComponent<bad1Movement>().enabled = false;
+			death.SetTrigger("Death");
             enemy++;
         }
     }
+	
+	private void DestroyMe () {
+		Destroy(gameObject);
+	}
 }
 
