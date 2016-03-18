@@ -8,39 +8,27 @@ public class SpawnEnemy : MonoBehaviour {
 	[SerializeField] public GameObject bossPrefab;
 	private GameObject _enemy;
     public float spawnTime = 3f;
-    bool spawningCheck = true;
-
-
-    void Start()
-    {
-
-        if (spawningCheck)
-        {
-            InvokeRepeating("Spawn", spawnTime, spawnTime);
-        }
-
-        
-
-       // if (PlayerHealthScript.hp > 0)
-        //{
-           // InvokeRepeating("Spawn", spawnTime, spawnTime);
-        //}
-    }
-
+    public static bool spawningCheck = false;
+	
+	void Start () {
+		spawningCheck = false;
+		// Call the Spawn function after a delay of the spawnTime and then continue to call after the same amount of time.
+		InvokeRepeating("Spawn", spawnTime, spawnTime);
+		
+	} 
+	
     void Update()
-
     {
-		if (Input.GetKeyUp(KeyCode.F1)) {
-			spawningCheck = false;
+		//Force spawn boss
+		if (Input.GetKeyUp(KeyCode.F12)) {
+			CancelInvoke("Spawn");
 			GameObject.Instantiate(bossPrefab, new Vector3(13, 0, 0), Quaternion.identity);
 		}
-		
-        if (spawningCheck == false)
-        {
-            CancelInvoke("Spawn");
-        }
-
-        // Call the Spawn function after a delay of the spawnTime and then continue to call after the same amount of time.
+		// Re-starting enemy spawn
+		if (spawningCheck) {
+			spawningCheck = false;
+			InvokeRepeating("Spawn", spawnTime, spawnTime);
+		}
     }
 
     void Spawn ()
