@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player3 : PlayerStats {
 	
@@ -55,7 +56,10 @@ public class Player3 : PlayerStats {
 		//Initalize virus cool down time
 		virusDuration = VIRUS_TIME;
 		virusBoost = false;
-
+		
+		//Screen flash when player is hit
+		hit = GameObject.FindWithTag ("flash");
+		hit.GetComponentInChildren<RawImage>().enabled = false;
 	}
 	
 	void Update () {
@@ -92,11 +96,13 @@ public class Player3 : PlayerStats {
 
         if (coll.gameObject.tag == "enemyBullet")
         { 
+			StartCoroutine (Flash ());
 			hp -= 1;
 		}
 
         if (coll.gameObject.tag == "enemy")
         { 
+			StartCoroutine (Flash ());
 			hp -= 4; 
 		}
     }
