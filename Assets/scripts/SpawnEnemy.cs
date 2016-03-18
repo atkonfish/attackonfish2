@@ -3,7 +3,9 @@ using System.Collections;
 
 public class SpawnEnemy : MonoBehaviour {
    
-	[SerializeField] public GameObject enemyPrefab;
+	[SerializeField] public GameObject enemy1Prefab;
+	[SerializeField] public GameObject enemy2Prefab;
+	[SerializeField] public GameObject bossPrefab;
 	private GameObject _enemy;
     public float spawnTime = 3f;
     bool spawningCheck = true;
@@ -28,6 +30,11 @@ public class SpawnEnemy : MonoBehaviour {
     void Update()
 
     {
+		if (Input.GetKeyUp(KeyCode.F1)) {
+			spawningCheck = false;
+			GameObject.Instantiate(bossPrefab, new Vector3(13, 0, 0), Quaternion.identity);
+		}
+		
         if (spawningCheck == false)
         {
             CancelInvoke("Spawn");
@@ -39,7 +46,11 @@ public class SpawnEnemy : MonoBehaviour {
     void Spawn ()
     {
 		float spawnY = Random.Range(-4.2f, 4.2f);
-        _enemy = (GameObject)Instantiate(enemyPrefab, new Vector3(10, spawnY, 0), Quaternion.identity);
+		int enemyType = Random.Range(0, 2);
+		if (enemyType == 0)
+			_enemy = (GameObject)Instantiate(enemy1Prefab, new Vector3(10, spawnY, 0), Quaternion.identity);
+		else if (enemyType == 1)
+			_enemy = (GameObject)Instantiate(enemy2Prefab, new Vector3(10, spawnY, 0), Quaternion.identity);
     }
 
 }
