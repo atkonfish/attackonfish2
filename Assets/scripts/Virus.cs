@@ -7,7 +7,7 @@ public class Virus : MonoBehaviour {
 	GameObject player;
 	
 	void Start () {
-		player = GameObject.FindWithTag("Player");
+		player = GameObject.FindWithTag("player");
 	}
 	
 	void Update () {

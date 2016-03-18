@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
 public class Player2 : PlayerStats {
 
 	/*
@@ -53,9 +54,10 @@ public class Player2 : PlayerStats {
 		//Initalize virus cool down time
 		virusDuration = VIRUS_TIME;
 		virusBoost = false;
+		
+		//Screen flash when player is hit
 		hit = GameObject.FindWithTag ("flash");
 		hit.GetComponentInChildren<RawImage>().enabled = false;
-
 	}
 	
 	void Update () {

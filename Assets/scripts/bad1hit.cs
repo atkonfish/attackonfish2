@@ -15,8 +15,6 @@ public class bad1hit : MonoBehaviour {
 
 	void Update(){
 		if (hp <= 0) {
-			
-
 			GetComponent<bad1Movement> ().enabled = false;
 			GetComponent<PolygonCollider2D> ().enabled = false;
 			death.SetTrigger ("Death");
@@ -40,8 +38,6 @@ public class bad1hit : MonoBehaviour {
         {
             hp = hp - 4;
         }
-	
-
     }
 	
 	private void DestroyMe () {

@@ -4,12 +4,16 @@ using System.Collections;
 public class bulletscript : MonoBehaviour {
     //Define the speed of the bullet.
     float speed = 25f;
-
-    void  Update () {
-        //Defined to get width of main camera.
+	float widthOrtho;
+	
+	void Start () {
+		//Defined to get width of main camera.
         float screenRatio = (float)Screen.width / (float)Screen.height;
-        float widthOrtho = Camera.main.orthographicSize * screenRatio;
-        
+        widthOrtho = Camera.main.orthographicSize * screenRatio;
+	}
+	
+    void  Update () {
+
         //Moves bullet across the screen.
         Vector3 pos = transform.position;
         Vector3 velocity = new Vector3(Mathf.Cos(transform.rotation.eulerAngles.z / 180 * Mathf.PI) * speed * Time.deltaTime, Mathf.Sin(transform.rotation.eulerAngles.z / 180 * Mathf.PI) * speed * Time.deltaTime , 0);

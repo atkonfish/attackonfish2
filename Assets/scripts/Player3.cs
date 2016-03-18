@@ -56,9 +56,10 @@ public class Player3 : PlayerStats {
 		//Initalize virus cool down time
 		virusDuration = VIRUS_TIME;
 		virusBoost = false;
+		
+		//Screen flash when player is hit
 		hit = GameObject.FindWithTag ("flash");
 		hit.GetComponentInChildren<RawImage>().enabled = false;
-
 	}
 	
 	void Update () {
