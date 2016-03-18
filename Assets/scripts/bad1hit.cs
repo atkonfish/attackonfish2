@@ -13,6 +13,16 @@ public class bad1hit : MonoBehaviour {
 
     private int enemy = 0;
 
+	void Update(){
+		if (hp <= 0) {
+			
+
+			GetComponent<bad1Movement> ().enabled = false;
+			GetComponent<PolygonCollider2D> ().enabled = false;
+			death.SetTrigger ("Death");
+			enemy++;
+		}
+	}
 	void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.tag == "playerbullet")
@@ -30,18 +40,17 @@ public class bad1hit : MonoBehaviour {
         {
             hp = hp - 4;
         }
-  
-        if (hp <= 0)
-        {
-			scoreCounter.score += hitScore;
-			GetComponent<bad1Movement>().enabled = false;
-			death.SetTrigger("Death");
-            enemy++;
-        }
+	
+
     }
 	
 	private void DestroyMe () {
+		
 		Destroy(gameObject);
+	}
+
+	private void ScoreUpdate(){
+		scoreCounter.score += hitScore;
 	}
 }
 

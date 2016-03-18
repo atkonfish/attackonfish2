@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : PlayerStats {
 	
@@ -33,6 +34,8 @@ public class Player : PlayerStats {
 	public AudioSource shooting;
 	public AudioSource death;
 	public AudioSource burst;
+
+
 	
 	void Start () {
 		//Border for the submarine. used for movement restriction
@@ -53,6 +56,10 @@ public class Player : PlayerStats {
 		//Initalize virus cool down time
 		virusDuration = VIRUS_TIME;
 		virusBoost = false;
+
+
+		hit = GameObject.FindWithTag ("flash");
+		hit.GetComponentInChildren<RawImage>().enabled = false;
 
 	}
 	
@@ -90,11 +97,13 @@ public class Player : PlayerStats {
 
         if (coll.gameObject.tag == "enemyBullet")
         { 
+			StartCoroutine (Flash ());
 			hp -= 1;
 		}
 
         if (coll.gameObject.tag == "enemy")
         { 
+			StartCoroutine (Flash ());
 			hp -= 4; 
 		}
     }
@@ -178,4 +187,5 @@ public class Player : PlayerStats {
 
 
     }
+
 }
