@@ -5,7 +5,8 @@ public class SpawnEnemy : MonoBehaviour {
    
 	[SerializeField] public GameObject enemy1Prefab;
 	[SerializeField] public GameObject enemy2Prefab;
-	[SerializeField] public GameObject bossPrefab;
+	[SerializeField] public GameObject boss1Prefab;
+	[SerializeField] public GameObject boss2Prefab;
 	private GameObject _enemy;
     public float spawnTime = 3f;
     public static bool spawningCheck = false;
@@ -20,10 +21,14 @@ public class SpawnEnemy : MonoBehaviour {
     void Update()
     {
 		//Force spawn boss
-		if (Input.GetKeyUp(KeyCode.F12)) {
+		if (Input.GetKeyDown(KeyCode.F11)) {
 			CancelInvoke("Spawn");
-			GameObject.Instantiate(bossPrefab, new Vector3(13, 0, 0), Quaternion.identity);
+			GameObject.Instantiate(boss1Prefab, new Vector3(13, 0, 0), Quaternion.identity);
+		} else if (Input.GetKeyDown(KeyCode.F12)) {
+			CancelInvoke("Spawn");
+			GameObject.Instantiate(boss2Prefab, new Vector3(13, 0, 0), Quaternion.identity);
 		}
+		
 		// Re-starting enemy spawn
 		if (spawningCheck) {
 			spawningCheck = false;

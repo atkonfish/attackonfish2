@@ -104,13 +104,13 @@ public class boss1 : MonoBehaviour {
 		Vector3 posSelf = this.transform.position;
 		float angle = Vector3.Angle(Vector3.left, (posPlayer - posSelf));
 		if (!isRage) {
-			//Fire 1 projectile
+			//Fire 1 projectile normally
 			if (posPlayer.y >= posSelf.y)
 				Instantiate(bulletPrefab, this.transform.position, Quaternion.Euler(0, 0, -angle));
 			else 
 				Instantiate(bulletPrefab, this.transform.position, Quaternion.Euler(0, 0, angle));
 		} else {
-			//Fire 3 projectiles at once
+			//Fire 3 projectiles at once during Rage peroid
 			if (posPlayer.y >= posSelf.y) {
 				Instantiate(bulletPrefab, this.transform.position, Quaternion.Euler(0, 0, -angle));
 				Instantiate(bulletPrefab, this.transform.position, Quaternion.Euler(0, 0, -angle + 10));
