@@ -13,7 +13,7 @@ public class boss2 : MonoBehaviour {
 	private bool movingToIdle;
 	private bool isRage; //Rage mode boolean
 	private int attackPattern; //Integers from 1 to numOfAttacks-1 each represent a different attack pattern
-	const int numOfAttacks = 3;
+	const int numOfAttacks = 2;
 	
 	void Start () {
 		initHP = 200;
@@ -33,8 +33,6 @@ public class boss2 : MonoBehaviour {
 				StartCoroutine(attack1 ());
 			} else if (attackPattern == 2) {
 				StartCoroutine(attack2 ());
-			} else if (attackPattern == 3) {
-				
 			}
 		} else if (movingToIdle) {
 			MoveToIdlePosition ();
