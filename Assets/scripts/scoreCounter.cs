@@ -10,7 +10,6 @@ public class scoreCounter : MonoBehaviour {
 		score = 0;
 	}
 	void Update () {
-		//GetComponent<TextMesh>().text ="Score: " + score.ToString();
-		GetComponent<Text>().text = "Score: " + score.ToString();
+		GetComponent<Text>().text = localization.Instance.getPhrase(4) + ": " + score.ToString();
 	}
 }
