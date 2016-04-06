@@ -44,16 +44,19 @@ public class localization {
 		chineseList.Add("血量");
 		//High Scores, index 6
 		englishList.Add("High Scores");
-		chineseList.Add("最高分數");
+		chineseList.Add("最高分");
 		//Rank, index 7
 		englishList.Add("Rank");
-		chineseList.Add("名次");
+		chineseList.Add("排行");
 		//Name, index 8
 		englishList.Add("Name");
 		chineseList.Add("名字");
 		//Main Menu, index 9
 		englishList.Add("Main Menu");
 		chineseList.Add("主目錄");
+		//Reset High Scores, index 10
+		englishList.Add("Reset High Scores");
+		chineseList.Add("重置最高分");
 	}
 	
 	private string currentLang = "English";  //English or Chinese

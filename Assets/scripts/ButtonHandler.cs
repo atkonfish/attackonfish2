@@ -26,6 +26,10 @@ public class ButtonHandler : MonoBehaviour {
 	public void ChangeLang() {
 		localization.Instance.CurrentLang = (localization.Instance.CurrentLang == "English") ? "中文" : "English";
 	}
+	
+	public void ResetScore() {
+		PlayerPrefs.DeleteAll();
+	}
 
 	public void Exit()
     {
