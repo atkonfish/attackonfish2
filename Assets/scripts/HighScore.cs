@@ -13,6 +13,11 @@ public class HighScore : MonoBehaviour {
 	private string wholeFile;
 	private List<string> eachLine;
 	//Display text
+	[SerializeField] private Text highScore;
+	[SerializeField] private Text rank;
+	[SerializeField] private Text name;
+	[SerializeField] private Text score;
+	[SerializeField] private Text mainMenu;
 	[SerializeField] private Text nameOne;
 	[SerializeField] private Text nameTwo;
 	[SerializeField] private Text nameThree;
@@ -25,6 +30,11 @@ public class HighScore : MonoBehaviour {
 	
 	
 	void Start () {
+		highScore.text = localization.Instance.getPhrase(6);
+		rank.text = localization.Instance.getPhrase(7);
+		name.text = localization.Instance.getPhrase(8);
+		score.text = localization.Instance.getPhrase(4);
+		mainMenu.text = localization.Instance.getPhrase(9);
 		//Reads whole file as one string
 		wholeFile = textFile.text;
 		//Split each line into shorter strings with newline character

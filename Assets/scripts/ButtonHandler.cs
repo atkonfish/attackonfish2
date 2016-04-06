@@ -22,6 +22,10 @@ public class ButtonHandler : MonoBehaviour {
 		this.GetComponent<getPlayerName> ().enabled = true;
 		spawnPlayer.spawnNum = Num;
 	}
+	
+	public void ChangeLang() {
+		localization.Instance.CurrentLang = (localization.Instance.CurrentLang == "English") ? "中文" : "English";
+	}
 
 	public void Exit()
     {
