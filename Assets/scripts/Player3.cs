@@ -77,8 +77,7 @@ public class Player3 : PlayerStats {
 		if (hp <= 0)
         {
 			death.Play ();
-			Destroy (gameObject);
-			SceneManager.LoadScene ("High Scores");
+			StartCoroutine (waitLoad ());
         }
 		if (virusBoost) {
 			virusDuration -= Time.deltaTime;

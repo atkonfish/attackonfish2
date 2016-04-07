@@ -75,7 +75,6 @@ public class Player2 : PlayerStats {
 		if (hp <= 0)
         {
 			death.Play ();
-			Destroy (gameObject);
 			StartCoroutine (waitLoad ());
         }
 		if (virusBoost) {
