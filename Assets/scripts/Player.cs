@@ -87,7 +87,10 @@ public class Player : PlayerStats {
                 virusDuration = VIRUS_TIME;
             }
 		}
-		movement ();
+		if (hp > 0) {
+			movement ();
+		}
+
 		if (itemBoost)
         {
             boostDuration -= Time.deltaTime;

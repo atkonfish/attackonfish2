@@ -27,7 +27,7 @@ public class PlayerHealthUI : MonoBehaviour {
 		if (health <= 25) {
 			GetComponent<Text>().color = Color.red;
 		}
-		if (health < 0 && check) {
+		if (health <= 0 && check) {
 			check = false;
 			playerAnimator.SetBool ("alive", false);
 		}

@@ -94,7 +94,9 @@ public class Player2 : PlayerStats {
                 boostDuration = 10.0f;
             }
         }
-		movement ();
+		if (hp > 0) {
+			movement ();
+		}
 		shoot ();
 	}
 
