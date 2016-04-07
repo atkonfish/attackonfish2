@@ -161,16 +161,17 @@ public class Player3 : PlayerStats {
 		if (Input.GetKey(KeyCode.A) && coolDown <= 0 && !itemBoost && virusBoost)
         {
             coolDown = VIRUS_DELAY_SHOT;
-            Instantiate(bullet2, barrel.transform.position, Quaternion.identity);
+            Instantiate(bullet, barrel.transform.position, Quaternion.identity);
+
 			shooting.Play ();
         }
 		//Hidden ability with both item and virus boost active
 		if (Input.GetKey(KeyCode.A) && coolDown <= 0 && itemBoost && virusBoost)
         {
             coolDown = VIRUS_DELAY_SHOT;
-            Instantiate(bullet2, barrel.transform.position, Quaternion.Euler(0, 0, 0));
-            Instantiate(bullet2, barrel.transform.position, Quaternion.Euler(0, 0, 10));
-            Instantiate(bullet2, barrel.transform.position, Quaternion.Euler(0, 0, -10));
+            Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, 0));
+            Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, 10));
+            Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, -10));
 			burst.Play ();
         }
 
