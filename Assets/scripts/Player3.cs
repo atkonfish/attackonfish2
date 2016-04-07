@@ -100,7 +100,12 @@ public class Player3 : PlayerStats {
         }
 		shoot ();
 	}
-	
+
+	private IEnumerator waitLoad (){
+		yield return new WaitForSeconds (4f);
+		SceneManager.LoadScene ("High Scores");
+	}
+
 	void OnTriggerEnter2D(Collider2D coll)
     {
 

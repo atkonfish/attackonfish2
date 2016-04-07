@@ -78,7 +78,7 @@ public class Player : PlayerStats {
         {
 			death.Play ();
 			Destroy (gameObject);
-			SceneManager.LoadScene ("High Scores");
+			StartCoroutine (waitLoad ());
         }
 		if (virusBoost) {
 			virusDuration -= Time.deltaTime;
@@ -100,7 +100,12 @@ public class Player : PlayerStats {
         }
 		shoot ();
 	}
-	
+
+	private IEnumerator waitLoad (){
+		yield return new WaitForSeconds (4f);
+		SceneManager.LoadScene ("High Scores");
+	}
+
 	void OnTriggerEnter2D(Collider2D coll)
     {
 
