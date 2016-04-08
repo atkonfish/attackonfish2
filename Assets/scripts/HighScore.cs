@@ -6,15 +6,13 @@ using System.IO;
 
 public class HighScore : MonoBehaviour {
 	
-	//Current player name
+	//
 	public static string playerName;
+	//Reading txt file
+	[SerializeField] private TextAsset textFile;
+	private string wholeFile;
+	private List<string> eachLine;
 	//Display text
-	[SerializeField] private Text highScore;
-	[SerializeField] private Text rank;
-	[SerializeField] private Text name;
-	[SerializeField] private Text score;
-	[SerializeField] private Text mainMenu;
-	[SerializeField] private Text resetScore;
 	[SerializeField] private Text nameOne;
 	[SerializeField] private Text nameTwo;
 	[SerializeField] private Text nameThree;
@@ -22,48 +20,65 @@ public class HighScore : MonoBehaviour {
 	[SerializeField] private Text scoreTwo;
 	[SerializeField] private Text scoreThree;
 	
-	void Start () {
-		highScore.text = localization.Instance.getPhrase(6);
-		rank.text = localization.Instance.getPhrase(7);
-		name.text = localization.Instance.getPhrase(8);
-		score.text = localization.Instance.getPhrase(4);
-		mainMenu.text = localization.Instance.getPhrase(9);
-		resetScore.text = localization.Instance.getPhrase(10);
-		updateRanking ();
-	}
+	bool rewriteFile = false;
+	StreamWriter sw;
 	
-	void Update () {
+	
+	void Start () {
+		//Reads whole file as one string
+		wholeFile = textFile.text;
+		//Split each line into shorter strings with newline character
+		//2 lines per entry, 1st line for name, 2nd line for score
+		eachLine = new List<string>();
+		eachLine.AddRange(wholeFile.Split("\n"[0]) );
+		//Test new highscore
+		updateRanking();
 		//Display ranking info
-		nameOne.text = PlayerPrefs.GetString("1stPlayerName");
-		scoreOne.text = (PlayerPrefs.GetInt("1stPlayerScore") > 0) ? PlayerPrefs.GetInt("1stPlayerScore").ToString() : "";
-		nameTwo.text = PlayerPrefs.GetString("2ndPlayerName");
-		scoreTwo.text = (PlayerPrefs.GetInt("2ndPlayerScore") > 0) ? PlayerPrefs.GetInt("2ndPlayerScore").ToString() : "";
-		nameThree.text = PlayerPrefs.GetString("3rdPlayerName");
-		scoreThree.text = (PlayerPrefs.GetInt("3rdPlayerScore") > 0) ? PlayerPrefs.GetInt("3rdPlayerScore").ToString() : "";
+		nameOne.text = eachLine[0];
+		scoreOne.text = eachLine[1];
+		nameTwo.text = eachLine[2];
+		scoreTwo.text = eachLine[3];
+		nameThree.text = eachLine[4];
+		scoreThree.text = eachLine[5];
+		if (rewriteFile) {
+			sw = new StreamWriter(Application.dataPath + "/txt_Files/" +"highscores.txt");
+			sw.WriteLine(eachLine[0]);
+			sw.WriteLine(eachLine[1]);
+			sw.WriteLine(eachLine[2]);
+			sw.WriteLine(eachLine[3]);
+			sw.WriteLine(eachLine[4]);
+			sw.WriteLine(eachLine[5]);
+			sw.Close();
+		}
 	}
 	
 	void updateRanking () {
 		int newScore = scoreCounter.score;
-		int highestScore = PlayerPrefs.GetInt("1stPlayerScore");
-		int secondHighestScore = PlayerPrefs.GetInt("2ndPlayerScore");
-		int thirdHighestScore = PlayerPrefs.GetInt("3rdPlayerScore");
+		int tempScoreOne = int.Parse(eachLine[1]);
+		int tempScoreTwo = int.Parse(eachLine[3]);
+		int tempScoreThree = int.Parse(eachLine[5]);
 		string holder;
-		//Test new score against 3rd place, if new score is higher store into 3rd place
-		if (newScore > thirdHighestScore) {
-			PlayerPrefs.SetInt("3rdPlayerScore", newScore);
-			PlayerPrefs.SetString("3rdPlayerName", playerName);
-			//Test new score against 2nd place, if new score is higher, move 2nd place to 3rd place and store into 2nd place
-			if (newScore > secondHighestScore) {
-				PlayerPrefs.SetInt("3rdPlayerScore", secondHighestScore);
-				PlayerPrefs.SetString("3rdPlayerName", PlayerPrefs.GetString("2ndPlayerName"));
-				PlayerPrefs.SetInt("2ndPlayerScore", newScore);
-				PlayerPrefs.SetString("2ndPlayerName", playerName);
-				//Test new score against 1st place, if new score is higher, move 1st place to 2nd place and store into 1st place
-				if (newScore > highestScore) {
-					PlayerPrefs.SetInt("2ndPlayerScore", highestScore);
-					PlayerPrefs.SetString("2ndPlayerName", PlayerPrefs.GetString("1stPlayerName"));
-					PlayerPrefs.SetInt("1stPlayerScore", newScore);
-					PlayerPrefs.SetString("1stPlayerName", playerName);
+		//Test new score against 3rd place
+		if (newScore > tempScoreThree) {
+			rewriteFile = true; //Trigger to update new highscore.txt
+			eachLine[5] = newScore.ToString(); //Replace 3rd place with new score
+			eachLine[4] = playerName;
+			//Test new score against 2nd place
+			if (newScore > tempScoreTwo) {
+				holder = eachLine[5]; //Replace 2nd place with new score
+				eachLine[5] = eachLine[3];
+				eachLine[3] = holder;
+				holder = eachLine[4];
+				eachLine[4] = eachLine[2];
+				eachLine[2] = holder;
+				//Test new score against 1st place
+				if (newScore > tempScoreOne) {
+					holder = eachLine[3]; //Replace 1st place with new score
+					eachLine[3] = eachLine[1];
+					eachLine[1] = holder;
+					holder = eachLine[2];
+					eachLine[2] = eachLine[0];
+					eachLine[0] = holder;
 				}
 			}
 		}
