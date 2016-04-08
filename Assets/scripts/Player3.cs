@@ -99,7 +99,7 @@ public class Player3 : PlayerStats {
         { 
 			gothit.Play ();
 			StartCoroutine (Flash ());
-			hp -= 1;
+			hp -= bad1hit.attackPower;
 		}
 
         if (coll.gameObject.tag == "enemy")

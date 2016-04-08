@@ -97,7 +97,7 @@ public class Player2 : PlayerStats {
 			{ 
 				gothit.Play ();
 				StartCoroutine (Flash ());
-				hp -= 3;
+				hp -= bad1hit.attackPower * 3;
 			}
 
 			if (coll.gameObject.tag == "enemy")
@@ -121,7 +121,7 @@ public class Player2 : PlayerStats {
 			{ 
 				gothit.Play ();
 				StartCoroutine (Flash ());
-				hp -= 1;
+				hp -= bad1hit.attackPower;
 			}
 
 			if (coll.gameObject.tag == "enemy")
