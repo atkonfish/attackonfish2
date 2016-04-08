@@ -33,7 +33,8 @@ public class Player2 : PlayerStats {
 	//Audio
 	public AudioSource shooting;
 	public AudioSource death;
-	
+	public AudioSource gothit;
+
 	void Start () {
 		
 		//Border for the submarine. used for movement restriction
@@ -94,6 +95,7 @@ public class Player2 : PlayerStats {
 		if (virusBoost) {
 			if (coll.gameObject.tag == "enemyBullet")
 			{ 
+				gothit.Play ();
 				StartCoroutine (Flash ());
 				hp -= 3;
 			}
@@ -117,6 +119,7 @@ public class Player2 : PlayerStats {
 		} else {
 			if (coll.gameObject.tag == "enemyBullet")
 			{ 
+				gothit.Play ();
 				StartCoroutine (Flash ());
 				hp -= 1;
 			}

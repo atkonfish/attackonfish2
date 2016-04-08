@@ -34,7 +34,7 @@ public class Player : PlayerStats {
 	public AudioSource shooting;
 	public AudioSource death;
 	public AudioSource burst;
-
+	public AudioSource gothit;
 
 	
 	void Start () {
@@ -60,7 +60,6 @@ public class Player : PlayerStats {
 
 		hit = GameObject.FindWithTag ("flash");
 		hit.GetComponentInChildren<RawImage>().enabled = false;
-
 	}
 	
 	void Update () {
@@ -97,6 +96,7 @@ public class Player : PlayerStats {
 
         if (coll.gameObject.tag == "enemyBullet")
         { 
+			gothit.Play ();
 			StartCoroutine (Flash ());
 			hp -= 1;
 		}
