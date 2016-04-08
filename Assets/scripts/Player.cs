@@ -98,7 +98,7 @@ public class Player : PlayerStats {
         if (coll.gameObject.tag == "enemyBullet")
         { 
 			StartCoroutine (Flash ());
-			hp -= 1;
+			hp -= bad1hit.attackPower;
 		}
 
         if (coll.gameObject.tag == "enemy")

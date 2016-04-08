@@ -13,9 +13,11 @@ public class PlayerStats : MonoBehaviour {
 
 	public IEnumerator Flash(){
 		hit.GetComponentInChildren<RawImage>().enabled = true;
-		Debug.Log ("hit");
+		this.GetComponent<PolygonCollider2D>().enabled = false;
 		yield return new WaitForSeconds (0.2f);
 		hit.GetComponentInChildren<RawImage>().enabled = false;
+		yield return new WaitForSeconds (0.3f);
+		this.GetComponent<PolygonCollider2D>().enabled = true;
 	}
 }
 
