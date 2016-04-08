@@ -18,12 +18,14 @@ public class SpawnEnemy : MonoBehaviour {
 	private bool spawnBossOne = true;
 	//Spawn a boss everytime score increases by SCORE_INTERVAL
 	const int SCORE_INTERVAL = 500;
+	//ColourManager
+	public GameObject colourManager;
 	
 	void Start () {
 		spawningCheck = false;
 		// Call the Spawn function after a delay of the spawnTime and then continue to call after the same amount of time.
 		InvokeRepeating("Spawn", spawnTime, spawnTime);
-		
+		colourManager = GameObject.Find("ColourManager");
 	} 
 	
     void Update()
@@ -58,8 +60,10 @@ public class SpawnEnemy : MonoBehaviour {
 		if (spawningCheck) {
 			spawningCheck = false;
 			bossKilled++;
-			if (bossKilled % 2 == 0)
+			if (bossKilled % 1 == 0) {
 				bad1hit.attackPower++;
+				colourManager.GetComponent<ColourManager>().cycleColours();
+			}
 			itemSpawn.hpSpawn = true;
 			bossFight = false;
 			InvokeRepeating("Spawn", spawnTime, spawnTime);

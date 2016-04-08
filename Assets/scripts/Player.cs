@@ -34,6 +34,11 @@ public class Player : PlayerStats {
 	public AudioSource shooting;
 	public AudioSource death;
 	public AudioSource burst;
+	private bool bubbleCondition = true;
+	//Animation
+	[SerializeField] private GameObject bubbleObj;
+	public GameObject bubbleSpawningPoint;
+	private Animator playerAnimation;
 
 
 	
@@ -61,16 +66,18 @@ public class Player : PlayerStats {
 		hit = GameObject.FindWithTag ("flash");
 		hit.GetComponentInChildren<RawImage>().enabled = false;
 
+		//Get Animator
+		playerAnimation = GetComponent<Animator>();
+
 	}
 	
 	void Update () {
 		//Check player hp
 		if (hp <= 0)
-        {
+		{
 			death.Play ();
-			Destroy (gameObject);
-			SceneManager.LoadScene ("High Scores");
-        }
+			StartCoroutine (waitLoad ());
+		}
 		if (virusBoost) {
 			virusDuration -= Time.deltaTime;
             if (virusDuration <= 0)
@@ -79,7 +86,9 @@ public class Player : PlayerStats {
                 virusDuration = VIRUS_TIME;
             }
 		}
-		movement ();
+		if (hp > 0) {
+			movement ();
+		}
 		if (itemBoost)
         {
             boostDuration -= Time.deltaTime;
@@ -91,6 +100,12 @@ public class Player : PlayerStats {
         }
 		shoot ();
 	}
+
+	private IEnumerator waitLoad (){
+		yield return new WaitForSeconds (4f);
+		Destroy (gameObject);
+		SceneManager.LoadScene ("High Scores");
+	}
 	
 	void OnTriggerEnter2D(Collider2D coll)
     {
@@ -98,7 +113,7 @@ public class Player : PlayerStats {
         if (coll.gameObject.tag == "enemyBullet")
         { 
 			StartCoroutine (Flash ());
-			hp -= bad1hit.attackPower;
+			hp -= bad1hit.attackPower;;
 		}
 
         if (coll.gameObject.tag == "enemy")
@@ -162,11 +177,29 @@ public class Player : PlayerStats {
         
         //Updates player position.
         transform.position = pos;
+
+		if (Input.GetAxisRaw ("Horizontal") > 0 && bubbleCondition) {
+			bubbleCondition = false;
+			GameObject bubbles = Instantiate (bubbleObj) as GameObject;
+			bubbles.transform.position = bubbleSpawningPoint.transform.position;
+			StartCoroutine (changeBubbleCondition ());
+		}
+	}
+	private IEnumerator changeBubbleCondition (){
+		yield return new WaitForSeconds (0.1f);
+		bubbleCondition = true;
 	}
 
 	void shoot()
     {
         coolDown -= Time.deltaTime;
+
+		//Animation
+		if (Input.GetKey (KeyCode.A) && coolDown <= 0) {
+			playerAnimation.SetBool ("shoot", true);
+			StartCoroutine (resetAnimation ());
+		}
+
         //single shot
 		if (Input.GetKey(KeyCode.A) && coolDown <= 0 && !itemBoost)
         {
@@ -187,5 +220,9 @@ public class Player : PlayerStats {
 
 
     }
+	private IEnumerator resetAnimation (){
+		yield return new WaitForSeconds (0.01f);
+		playerAnimation.SetBool ("shoot", false);
+	}
 
 }
