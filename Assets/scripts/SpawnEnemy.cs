@@ -10,6 +10,9 @@ public class SpawnEnemy : MonoBehaviour {
 	private GameObject _enemy;
     public float spawnTime = 3f;
     public static bool spawningCheck = false;
+	private int bossKilled = 0;
+	private bool bossFight = false;
+	private bool spawnBossOne = true;
 	
 	void Start () {
 		spawningCheck = false;
@@ -29,9 +32,27 @@ public class SpawnEnemy : MonoBehaviour {
 			GameObject.Instantiate(boss2Prefab, new Vector3(13, 0, 0), Quaternion.identity);
 		}
 		
+		if (scoreCounter.score != 0 && !bossFight) {
+			if ((scoreCounter.score - bossKilled * 2000) % (1000 + bossKilled * 1000) == 0) {
+				if (spawnBossOne) {
+					CancelInvoke("Spawn");
+					GameObject.Instantiate(boss1Prefab, new Vector3(13, 0, 0), Quaternion.identity);
+					spawnBossOne = false;
+					bossFight = true;
+				} else {
+					CancelInvoke("Spawn");
+					GameObject.Instantiate(boss2Prefab, new Vector3(13, 0, 0), Quaternion.identity);
+					spawnBossOne = true;
+					bossFight = true;
+				}
+			}
+		}
+		
 		// Re-starting enemy spawn
 		if (spawningCheck) {
 			spawningCheck = false;
+			bossKilled++;
+			bossFight = false;
 			InvokeRepeating("Spawn", spawnTime, spawnTime);
 		}
     }
