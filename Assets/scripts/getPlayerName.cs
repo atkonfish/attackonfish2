@@ -11,7 +11,7 @@ public class getPlayerName : MonoBehaviour {
 	}
 	
 	void OnEnable () {
-		if (playerName.text != "Enter Player Name" && playerName.text != "輸入玩家名字") {
+		if (playerName.text != "Enter Player Name") {
 			HighScore.playerName = playerName.text;
 		} else {
 			HighScore.playerName = "";

@@ -16,6 +16,11 @@ public class Player3 : PlayerStats {
     private float subBoundaryRadius;   //Border for the submarine. used for movement restriction
 	private float screenRatio;
     private float widthOrtho;
+	private bool bubbleCondition = true;
+	//Defines the bubble animation prefab
+	[SerializeField] private GameObject bubbleObj;
+	//Defines the bubble spawning point
+	public GameObject bubbleSpawningPoint;
 	//Defines the location of the gun barrel. This is where the bullet comes out.
     public GameObject barrel;
     //Defines the bullet for prefab
@@ -36,6 +41,8 @@ public class Player3 : PlayerStats {
 	public AudioSource shooting;
 	public AudioSource death;
 	public AudioSource burst;
+	//Animation
+	private Animator playerAnimation;
 	
 	void Start () {
 		//Border for the submarine. used for movement restriction
@@ -60,6 +67,9 @@ public class Player3 : PlayerStats {
 		//Screen flash when player is hit
 		hit = GameObject.FindWithTag ("flash");
 		hit.GetComponentInChildren<RawImage>().enabled = false;
+
+		//Get Animator
+		playerAnimation = GetComponent<Animator>();
 	}
 	
 	void Update () {
@@ -67,8 +77,7 @@ public class Player3 : PlayerStats {
 		if (hp <= 0)
         {
 			death.Play ();
-			Destroy (gameObject);
-			SceneManager.LoadScene ("High Scores");
+			StartCoroutine (waitLoad ());
         }
 		if (virusBoost) {
 			virusDuration -= Time.deltaTime;
@@ -78,7 +87,9 @@ public class Player3 : PlayerStats {
                 virusDuration = VIRUS_TIME;
             }
 		}
-		movement ();
+		if (hp > 0) {
+			movement ();
+		}
 		if (itemBoost)
         {
             boostDuration -= Time.deltaTime;
@@ -90,7 +101,12 @@ public class Player3 : PlayerStats {
         }
 		shoot ();
 	}
-	
+
+	private IEnumerator waitLoad (){
+		yield return new WaitForSeconds (4f);
+		SceneManager.LoadScene ("High Scores");
+	}
+
 	void OnTriggerEnter2D(Collider2D coll)
     {
 
@@ -135,11 +151,32 @@ public class Player3 : PlayerStats {
         }
         //Updates player position.
         transform.position = pos;
+
+		//Animation
+		/* Show bubbles behind submarine when the it move forward.*/
+		if (Input.GetAxisRaw ("Horizontal") > 0 && bubbleCondition) {
+			bubbleCondition = false;
+			GameObject bubbles = Instantiate (bubbleObj) as GameObject;
+			bubbles.transform.position = bubbleSpawningPoint.transform.position;
+			StartCoroutine (changeBubbleCondition ());
+		}
+	}
+
+	private IEnumerator changeBubbleCondition (){
+		yield return new WaitForSeconds (0.1f);
+		bubbleCondition = true;
 	}
 
 	void shoot()
     {
         coolDown -= Time.deltaTime;
+
+		//Animation
+		if (Input.GetKey (KeyCode.A) && coolDown <= 0) {
+			playerAnimation.SetBool ("shoot", true);
+			StartCoroutine (resetAnimation ());
+		}
+
         //single shot
 		if (Input.GetKey(KeyCode.A) && coolDown <= 0 && !itemBoost && !virusBoost)
         {
@@ -161,20 +198,22 @@ public class Player3 : PlayerStats {
 		if (Input.GetKey(KeyCode.A) && coolDown <= 0 && !itemBoost && virusBoost)
         {
             coolDown = VIRUS_DELAY_SHOT;
-            Instantiate(bullet, barrel.transform.position, Quaternion.identity);
-
+            Instantiate(bullet2, barrel.transform.position, Quaternion.identity);
 			shooting.Play ();
         }
 		//Hidden ability with both item and virus boost active
 		if (Input.GetKey(KeyCode.A) && coolDown <= 0 && itemBoost && virusBoost)
         {
             coolDown = VIRUS_DELAY_SHOT;
-            Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, 0));
-            Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, 10));
-            Instantiate(bullet, barrel.transform.position, Quaternion.Euler(0, 0, -10));
+            Instantiate(bullet2, barrel.transform.position, Quaternion.Euler(0, 0, 0));
+            Instantiate(bullet2, barrel.transform.position, Quaternion.Euler(0, 0, 10));
+            Instantiate(bullet2, barrel.transform.position, Quaternion.Euler(0, 0, -10));
 			burst.Play ();
         }
-
     }
+	private IEnumerator resetAnimation (){
+		yield return new WaitForSeconds (0.01f);
+		playerAnimation.SetBool ("shoot", false);
+	}
 }
 
