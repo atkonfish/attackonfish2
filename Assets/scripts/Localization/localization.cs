@@ -57,6 +57,18 @@ public class localization {
 		//Reset High Scores, index 10
 		englishList.Add("Reset High Scores");
 		chineseList.Add("重置最高分");
+		//Credits, index 11
+		englishList.Add("Credits");
+		chineseList.Add("製作者");
+		//Controls, index 12
+		englishList.Add("Controls");
+		chineseList.Add("控制");
+		//Shoot, index 13
+		englishList.Add("Shoot");
+		chineseList.Add("射擊");
+		//Movement, index 14
+		englishList.Add("Movement");
+		chineseList.Add("移動");
 	}
 	
 	private string currentLang = "English";  //English or Chinese

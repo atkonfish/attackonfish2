@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 97f01dc65ddd70648ab801ee7b2621b9
-timeCreated: 1461307656
+guid: 5765c471d76c4024eaea9c413d25cd55
+timeCreated: 1461305896
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Item_0
+    21300000: BossBullet_0
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -51,21 +51,27 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: Item_0
+    - name: BossBullet_0
       rect:
         serializedVersion: 2
-        x: 614
-        y: 340
-        width: 336
-        height: 336
+        x: 675
+        y: 505
+        width: 136
+        height: 138
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 168, y: 168}
-        - {x: -168, y: 168}
-        - {x: -168, y: -168}
-        - {x: 168, y: -168}
+      - - {x: -14, y: 69}
+        - {x: -50, y: 49}
+        - {x: -68, y: 28}
+        - {x: -68, y: -51}
+        - {x: -61, y: -69}
+        - {x: 31, y: -69}
+        - {x: 54, y: -63}
+        - {x: 68, y: -12}
+        - {x: 68, y: 38}
+        - {x: 4, y: 69}
     outline: []
   spritePackingTag: 
   userData: 

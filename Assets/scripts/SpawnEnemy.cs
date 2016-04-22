@@ -8,7 +8,7 @@ public class SpawnEnemy : MonoBehaviour {
 	[SerializeField] public GameObject boss1Prefab;
 	[SerializeField] public GameObject boss2Prefab;
 	private GameObject _enemy;
-    public float spawnTime = 3f;
+    private float spawnTime = 2f;
     public static bool spawningCheck = false;
 	//Number of bossesKilled
 	private int bossKilled = 0;
@@ -17,7 +17,7 @@ public class SpawnEnemy : MonoBehaviour {
 	//Flag to determine which boss to spawn
 	private bool spawnBossOne = true;
 	//Spawn a boss everytime score increases by SCORE_INTERVAL
-	const int SCORE_INTERVAL = 500;
+	const int SCORE_INTERVAL = 1000;
 	//ColourManager
 	public GameObject colourManager;
 	
@@ -37,10 +37,14 @@ public class SpawnEnemy : MonoBehaviour {
 		} else if (Input.GetKeyDown(KeyCode.F12)) {
 			CancelInvoke("Spawn");
 			GameObject.Instantiate(boss2Prefab, new Vector3(13, 0, 0), Quaternion.identity);
+		} else if (Input.GetKeyDown(KeyCode.F10)) {
+			//Change colour
+			bad1hit.attackPower++;
+			colourManager.GetComponent<ColourManager>().cycleColours();
 		}
-		
+			
 		//Spawn a boss everytime score increases by SCORE_INTERVAL
-		if (scoreCounter.score != 0 && !bossFight) {
+		if (scoreCounter.score > 0 && !bossFight) {
 			if ((scoreCounter.score - bossKilled * 2000) % (SCORE_INTERVAL + bossKilled * SCORE_INTERVAL) == 0) {
 				if (spawnBossOne) {
 					CancelInvoke("Spawn");
@@ -60,10 +64,11 @@ public class SpawnEnemy : MonoBehaviour {
 		if (spawningCheck) {
 			spawningCheck = false;
 			bossKilled++;
-			if (bossKilled % 1 == 0) {
+			if (bossKilled % 2 == 0) {
 				bad1hit.attackPower++;
 				colourManager.GetComponent<ColourManager>().cycleColours();
 			}
+			spawnTime = 2f  * (1 - (Mathf.Log10(bad1hit.attackPower) / 4));
 			itemSpawn.hpSpawn = true;
 			bossFight = false;
 			InvokeRepeating("Spawn", spawnTime, spawnTime);

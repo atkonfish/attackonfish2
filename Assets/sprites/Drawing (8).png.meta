@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 3ad15d8595be95945b3495528e135c33
-timeCreated: 1460140223
+timeCreated: 1461307801
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -60,7 +60,7 @@ TextureImporter:
         width: 340
         height: 340
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -170, y: 170}
@@ -70,18 +70,18 @@ TextureImporter:
     - name: Drawing (8)_1
       rect:
         serializedVersion: 2
-        x: 926
-        y: 491
-        width: 370
-        height: 370
+        x: 955
+        y: 520
+        width: 336
+        height: 336
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -185, y: 185}
-        - {x: -185, y: -185}
-        - {x: 185, y: -185}
-        - {x: 185, y: 185}
+      - - {x: -168, y: 168}
+        - {x: -168, y: -168}
+        - {x: 168, y: -168}
+        - {x: 168, y: 168}
     outline: []
   spritePackingTag: 
   userData: 

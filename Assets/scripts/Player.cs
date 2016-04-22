@@ -30,10 +30,13 @@ public class Player : PlayerStats {
 	//Virus
     float virusDuration;
 	const float VIRUS_TIME = 10.0f;
+	//Max HP
+	const int HP_MAX = 100;
 	//Audio
 	public AudioSource shooting;
 	public AudioSource death;
 	public AudioSource burst;
+	public AudioSource takeDamage;
 	private bool bubbleCondition = true;
 	//Animation
 	[SerializeField] private GameObject bubbleObj;
@@ -49,7 +52,7 @@ public class Player : PlayerStats {
 		subBoundaryRadius = 1f;
 		
 		//Initalize hp
-		hp = 100;
+		hp = HP_MAX;
 		
 		//Set player speed
 		speed = 5.0f;
@@ -75,34 +78,36 @@ public class Player : PlayerStats {
 		//Check player hp
 		if (hp <= 0)
 		{
-			death.Play ();
-			StartCoroutine (waitLoad ());
-		}
-		if (virusBoost) {
-			virusDuration -= Time.deltaTime;
-            if (virusDuration <= 0)
-            {
-                virusBoost = false;
-                virusDuration = VIRUS_TIME;
-            }
-		}
-		if (hp > 0) {
+			hp = 0;
+			GetComponent<PolygonCollider2D>().enabled = false;
+			playerAnimation.SetBool ("alive", false);
+		} else {
+			hp = (hp > HP_MAX) ? HP_MAX : hp;
 			movement ();
+			shoot ();
+			if (virusBoost) {
+				virusDuration -= Time.deltaTime;
+				if (virusDuration <= 0)
+				{
+					virusBoost = false;
+					virusDuration = VIRUS_TIME;
+				}
+			}
+			if (itemBoost)
+			{
+				boostDuration -= Time.deltaTime;
+				if (boostDuration <= 0)
+				{
+					itemBoost = false;
+					boostDuration = BOOST_TIME;
+				}
+			}
 		}
-		if (itemBoost)
-        {
-            boostDuration -= Time.deltaTime;
-            if (boostDuration <= 0)
-            {
-                itemBoost = false;
-                boostDuration = BOOST_TIME;
-            }
-        }
-		shoot ();
 	}
 
 	private IEnumerator waitLoad (){
-		yield return new WaitForSeconds (4f);
+		death.Play();
+		yield return new WaitForSeconds(4f);
 		Destroy (gameObject);
 		SceneManager.LoadScene ("High Scores");
 	}
@@ -112,14 +117,20 @@ public class Player : PlayerStats {
 
         if (coll.gameObject.tag == "enemyBullet")
         { 
-			StartCoroutine (Flash ());
-			hp -= bad1hit.attackPower;
+			if (hp > 0) {
+				takeDamage.Play();
+				StartCoroutine (Flash ());
+				hp -= bad1hit.attackPower;
+			}
 		}
 
         if (coll.gameObject.tag == "enemy")
         { 
-			StartCoroutine (Flash ());
-			hp -= 4; 
+			if (hp > 0) {
+				takeDamage.Play();
+				StartCoroutine (Flash ());
+				hp -= bad1hit.attackPower * 4; 
+			}
 		}
     }
 	

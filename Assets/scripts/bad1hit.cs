@@ -30,7 +30,7 @@ public class bad1hit : MonoBehaviour {
 		if (coll.gameObject.tag == "playerbulletstrong")
 
         {
-            hp -= 10;
+            hp -= 2;
           
         }
         if (coll.gameObject.tag == "player")

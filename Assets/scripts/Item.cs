@@ -4,10 +4,14 @@ using System.Collections;
 public class Item : MonoBehaviour {
 
 	public float speed = 5f;
-	GameObject player;
+	private GameObject player;
+	[SerializeField] private Sprite boost;
+	[SerializeField] private Sprite virus;
+	private bool swapSprite = false;
 	
 	void Start () {
 		player = GameObject.FindWithTag("player");
+		InvokeRepeating("ChangeSprite", 0.25f, 0.25f);
 	}
 	
 	void Update () {
@@ -24,5 +28,10 @@ public class Item : MonoBehaviour {
 			Destroy(gameObject);
 			player.GetComponentInChildren<PlayerStats>().itemBoost = true;
 		}
+	}
+	
+	void ChangeSprite () {
+		GetComponent<SpriteRenderer>().sprite = swapSprite ? boost : virus;
+		swapSprite = !swapSprite;
 	}
 }
