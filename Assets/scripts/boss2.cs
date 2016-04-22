@@ -13,7 +13,7 @@ public class boss2 : MonoBehaviour {
 	private bool movingToIdle;
 	private bool isRage; //Rage mode boolean
 	private int attackPattern; //Integers from 1 to numOfAttacks-1 each represent a different attack pattern
-	const int numOfAttacks = 2;
+	const int numOfAttacks = 3;
 	
 	void Start () {
 		initHP = 200;

@@ -7,9 +7,8 @@ using System.Collections;
 public class bad1hit : MonoBehaviour {
    public int hp = 2;
    public int hitScore = 50;
+   public static int attackPower = 1;
    [SerializeField] private Animator death;
-   // public GameObject enemy;
-
 
     private int enemy = 0;
 

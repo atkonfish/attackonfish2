@@ -5,6 +5,7 @@ public class itemSpawn : MonoBehaviour {
 
 	[SerializeField] private GameObject itemPrefab;
 	[SerializeField] private GameObject virusPrefab;
+	[SerializeField] private GameObject hpRecoverPrefab;
 	private GameObject _item;
 	//Variables for time duration between item spawns
 	public float itemBaseInterval = 10.0f;
@@ -13,6 +14,8 @@ public class itemSpawn : MonoBehaviour {
 	//Variables for chances of virus spawning instead of boost item
 	int virusSpawnNumber;
 	int virusSpawnRate;
+	//Flag for spawning hpRecoverPrefab
+	public static bool hpSpawn = false;
 	
 	void Start() {
 		itemChance = Random.Range(1, 4);
@@ -40,6 +43,11 @@ public class itemSpawn : MonoBehaviour {
 				virusSpawnNumber = Random.Range(0, 10);
 			}
 		}
+		if (hpSpawn) {
+			_item = Instantiate(hpRecoverPrefab) as GameObject;
+			_item.transform.position = new Vector3(10, 0, 0);
+			hpSpawn = false;
+		}
 		//Force spawn boost item
 		if (Input.GetKeyUp(KeyCode.F1)) {
 			_item = Instantiate(itemPrefab) as GameObject;
@@ -48,6 +56,11 @@ public class itemSpawn : MonoBehaviour {
 		//Force spawn virus
 		else if (Input.GetKeyUp(KeyCode.F2)) {
 			_item = Instantiate(virusPrefab) as GameObject;
+			_item.transform.position = new Vector3(10, 0, 0);
+		}
+		//Force HP Recover
+		else if (Input.GetKeyUp(KeyCode.F3)) {
+			_item = Instantiate(hpRecoverPrefab) as GameObject;
 			_item.transform.position = new Vector3(10, 0, 0);
 		}
 	}

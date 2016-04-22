@@ -36,8 +36,13 @@ public class Player3 : PlayerStats {
 	public AudioSource shooting;
 	public AudioSource death;
 	public AudioSource burst;
-	public AudioSource gothit;
-	
+
+	//Animation
+	[SerializeField] private GameObject bubbleObj;
+	public GameObject bubbleSpawningPoint;
+	private Animator playerAnimation;
+	private bool bubbleCondition = true;
+
 	void Start () {
 		//Border for the submarine. used for movement restriction
 		screenRatio = (float)Screen.width / (float)Screen.height;
@@ -61,16 +66,20 @@ public class Player3 : PlayerStats {
 		//Screen flash when player is hit
 		hit = GameObject.FindWithTag ("flash");
 		hit.GetComponentInChildren<RawImage>().enabled = false;
+
+		//Get Animator
+		playerAnimation = GetComponent<Animator>();
 	}
 	
 	void Update () {
 		//Check player hp
+		//Check player hp
 		if (hp <= 0)
-        {
+		{
 			death.Play ();
-			Destroy (gameObject);
-			SceneManager.LoadScene ("High Scores");
-        }
+			StartCoroutine (waitLoad ());
+		}
+
 		if (virusBoost) {
 			virusDuration -= Time.deltaTime;
             if (virusDuration <= 0)
@@ -79,7 +88,9 @@ public class Player3 : PlayerStats {
                 virusDuration = VIRUS_TIME;
             }
 		}
-		movement ();
+		if (hp > 0) {
+			movement ();
+		}
 		if (itemBoost)
         {
             boostDuration -= Time.deltaTime;
@@ -91,15 +102,20 @@ public class Player3 : PlayerStats {
         }
 		shoot ();
 	}
+
+	private IEnumerator waitLoad (){
+		yield return new WaitForSeconds (4f);
+		Destroy (gameObject);
+		SceneManager.LoadScene ("High Scores");
+	}
 	
 	void OnTriggerEnter2D(Collider2D coll)
     {
 
         if (coll.gameObject.tag == "enemyBullet")
         { 
-			gothit.Play ();
 			StartCoroutine (Flash ());
-			hp -= 1;
+			hp -= bad1hit.attackPower;
 		}
 
         if (coll.gameObject.tag == "enemy")
@@ -137,11 +153,28 @@ public class Player3 : PlayerStats {
         }
         //Updates player position.
         transform.position = pos;
+
+		if (Input.GetAxisRaw ("Horizontal") > 0 && bubbleCondition) {
+			bubbleCondition = false;
+			GameObject bubbles = Instantiate (bubbleObj) as GameObject;
+			bubbles.transform.position = bubbleSpawningPoint.transform.position;
+			StartCoroutine (changeBubbleCondition ());
+		}
+	}
+	private IEnumerator changeBubbleCondition (){
+		yield return new WaitForSeconds (0.1f);
+		bubbleCondition = true;
 	}
 
 	void shoot()
     {
         coolDown -= Time.deltaTime;
+
+		if (Input.GetKey (KeyCode.A) && coolDown <= 0) {
+			playerAnimation.SetBool ("shoot", true);
+			StartCoroutine (resetAnimation ());
+		}
+
         //single shot
 		if (Input.GetKey(KeyCode.A) && coolDown <= 0 && !itemBoost && !virusBoost)
         {
@@ -178,5 +211,9 @@ public class Player3 : PlayerStats {
         }
 
     }
+	private IEnumerator resetAnimation (){
+		yield return new WaitForSeconds (0.01f);
+		playerAnimation.SetBool ("shoot", false);
+	}
 }
 

@@ -30,6 +30,7 @@ public class enemyAttack : MonoBehaviour {
         if (Timer < Time.time)
         { 
             Instantiate(bullet, barrel.transform.position, Quaternion.identity);
+			GetComponent<AudioSource>().Play();
 			Timer = Time.time + delayshot;
 
         }

@@ -6,10 +6,12 @@ public class PlayerHealthUI : MonoBehaviour {
 	
 	private int health;
 	GameObject player;
+	private Animator playerAnimator;
 	
 	void Start () {
 		player = GameObject.FindWithTag("player");
 		health = player.GetComponentInChildren<PlayerStats>().hp;
+		playerAnimator = player.GetComponent<Animator> ();
 	}
 	
 	void Update () {
@@ -23,6 +25,9 @@ public class PlayerHealthUI : MonoBehaviour {
 		if (health <= 25) {
 			GetComponent<Text>().color = Color.red;
 		}
-	
+		if (health <= 0 /*&& check*/) {
+			//check = false;
+			playerAnimator.SetBool ("alive", false);
+		}
 	}
 }
