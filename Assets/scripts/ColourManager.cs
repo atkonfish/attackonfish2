@@ -23,72 +23,58 @@ public class ColourManager : MonoBehaviour
 	{
 		tier++;
 		
-		switch(tier)
+		switch(tier % 8)
 		{
 			case 1:
-			enemyOne.GetComponent<SpriteRenderer>().color = Color.blue;
-			enemyTwo.GetComponent<SpriteRenderer>().color = Color.blue;
-			bossOne.GetComponent<SpriteRenderer>().color = Color.blue;
-			bossTwo.GetComponent<SpriteRenderer>().color = Color.blue;
+			enemyOne.GetComponent<SpriteRenderer>().color = new Color(0.6f, 0.6f, 1, 1);
+			enemyTwo.GetComponent<SpriteRenderer>().color = new Color(0.6f, 0.6f, 1, 1);
+			bossOne.GetComponent<SpriteRenderer>().color = new Color(0.6f, 0.6f, 1, 1);
+			bossTwo.GetComponent<SpriteRenderer>().color = new Color(0.6f, 0.6f, 1, 1);
 			break;
 			
 			case 2:
-			enemyOne.GetComponent<SpriteRenderer>().color = Color.red;
-			enemyTwo.GetComponent<SpriteRenderer>().color = Color.red;
-			bossOne.GetComponent<SpriteRenderer>().color = Color.red;
-			bossTwo.GetComponent<SpriteRenderer>().color = Color.red;
+			enemyOne.GetComponent<SpriteRenderer>().color = new Color(1, 0.6f, 0.6f, 1);
+			enemyTwo.GetComponent<SpriteRenderer>().color = new Color(1, 0.6f, 0.6f, 1);
+			bossOne.GetComponent<SpriteRenderer>().color = new Color(1, 0.6f, 0.6f, 1);
+			bossTwo.GetComponent<SpriteRenderer>().color = new Color(1, 0.6f, 0.6f, 1);
 			break;
 			
 			case 3:
-			enemyOne.GetComponent<SpriteRenderer>().color = Color.green;
-			enemyTwo.GetComponent<SpriteRenderer>().color = Color.green;
-			bossOne.GetComponent<SpriteRenderer>().color = Color.green;
-			bossTwo.GetComponent<SpriteRenderer>().color = Color.green;
+			enemyOne.GetComponent<SpriteRenderer>().color = new Color(0.6f, 1, 0.6f, 1);
+			enemyTwo.GetComponent<SpriteRenderer>().color = new Color(0.6f, 1, 0.6f, 1);
+			bossOne.GetComponent<SpriteRenderer>().color = new Color(0.6f, 1, 0.6f, 1);
+			bossTwo.GetComponent<SpriteRenderer>().color = new Color(0.6f, 1, 0.6f, 1);
 			break;
 			
 			case 4:
-			enemyOne.GetComponent<SpriteRenderer>().color = Color.black;
-			enemyTwo.GetComponent<SpriteRenderer>().color = Color.black;
-			bossOne.GetComponent<SpriteRenderer>().color = Color.black;
-			bossTwo.GetComponent<SpriteRenderer>().color = Color.black;
+			enemyOne.GetComponent<SpriteRenderer>().color = new Color(0.3f, 0.8f, 0.8f, 1);
+			enemyTwo.GetComponent<SpriteRenderer>().color = new Color(0.3f, 0.8f, 0.8f, 1);
+			bossOne.GetComponent<SpriteRenderer>().color = new Color(0.3f, 0.8f, 0.8f, 1);
+			bossTwo.GetComponent<SpriteRenderer>().color = new Color(0.3f, 0.8f, 0.8f, 1);
 			break;
 			
 			case 5:
-			enemyOne.GetComponent<SpriteRenderer>().color = Color.cyan;
-			enemyTwo.GetComponent<SpriteRenderer>().color = Color.cyan;
-			bossOne.GetComponent<SpriteRenderer>().color = Color.cyan;
-			bossTwo.GetComponent<SpriteRenderer>().color = Color.cyan;
+			enemyOne.GetComponent<SpriteRenderer>().color = new Color(1, 0.3f, 1, 1);
+			enemyTwo.GetComponent<SpriteRenderer>().color = new Color(1, 0.3f, 1, 1);
+			bossOne.GetComponent<SpriteRenderer>().color = new Color(1, 0.3f, 1, 1);
+			bossTwo.GetComponent<SpriteRenderer>().color = new Color(1, 0.3f, 1, 1);
 			break;
-			
+
 			case 6:
-			enemyOne.GetComponent<SpriteRenderer>().color = Color.gray;
-			enemyTwo.GetComponent<SpriteRenderer>().color = Color.gray;
-			bossOne.GetComponent<SpriteRenderer>().color = Color.gray;
-			bossTwo.GetComponent<SpriteRenderer>().color = Color.gray;
+			enemyOne.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.7f, 0.1f, 1);
+			enemyTwo.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.7f, 0.1f, 1);
+			bossOne.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.7f, 0.1f, 1);
+			bossTwo.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.7f, 0.1f, 1);
 			break;
 			
 			case 7:
-			enemyOne.GetComponent<SpriteRenderer>().color = Color.magenta;
-			enemyTwo.GetComponent<SpriteRenderer>().color = Color.magenta;
-			bossOne.GetComponent<SpriteRenderer>().color = Color.magenta;
-			bossTwo.GetComponent<SpriteRenderer>().color = Color.magenta;
+			enemyOne.GetComponent<SpriteRenderer>().color = new Color(0.3f, 0.3f, 0.3f, 1);
+			enemyTwo.GetComponent<SpriteRenderer>().color = new Color(0.3f, 0.3f, 0.3f, 1);
+			bossOne.GetComponent<SpriteRenderer>().color = new Color(0.3f, 0.3f, 0.3f, 1);
+			bossTwo.GetComponent<SpriteRenderer>().color = new Color(0.3f, 0.3f, 0.3f, 1);
 			break;
-			
-			case 8:
-			enemyOne.GetComponent<SpriteRenderer>().color = Color.yellow;
-			enemyTwo.GetComponent<SpriteRenderer>().color = Color.yellow;
-			bossOne.GetComponent<SpriteRenderer>().color = Color.yellow;
-			bossTwo.GetComponent<SpriteRenderer>().color = Color.yellow;
-			break;
-			
-			case 9:
-			enemyOne.GetComponent<SpriteRenderer>().color = Color.red;
-			enemyTwo.GetComponent<SpriteRenderer>().color = Color.red;
-			bossOne.GetComponent<SpriteRenderer>().color = Color.red;
-			bossTwo.GetComponent<SpriteRenderer>().color = Color.red;
-			break;
-			
-			case 10:
+
+			case 0:
 			enemyOne.GetComponent<SpriteRenderer>().color = Color.white;
 			enemyTwo.GetComponent<SpriteRenderer>().color = Color.white;
 			bossOne.GetComponent<SpriteRenderer>().color = Color.white;

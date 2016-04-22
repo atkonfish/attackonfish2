@@ -46,7 +46,7 @@ public class boss1 : MonoBehaviour {
         if (coll.gameObject.tag == "playerbullet") {
 			hp--;
 		} else if (coll.gameObject.tag == "playerbulletstrong") {
-			hp = hp - 10;
+			hp -= 2;
 		}
 	}
 	
